@@ -1,106 +1,46 @@
 
-# Hierarchical Self-supervised Augmented Knowledge Distillation
+# Dual-path collaborative distillation
 
-- This project provides source code for our Hierarchical Self-supervised Augmented Knowledge Distillation (HSAKD).
-
-- This paper is publicly available at the official IJCAI proceedings: [https://www.ijcai.org/proceedings/2021/0168.pdf](https://www.ijcai.org/proceedings/2021/0168.pdf)
-
-- Our poster presentation is publicly available at [765_IJCAI_poster.pdf](https://github.com/winycg/HSAKD/tree/main/poster/765_IJCAI_poster.pdf)
-
-- Our sildes of oral presentation are publicly available at [765_IJCAI_slides.pdf](https://github.com/winycg/HSAKD/tree/main/poster/765_IJCAI_slides.pdf)
-
-- 🏆 __SOTA of Knowledge Distillation for student ResNet-18 trained by teacher ResNet-34 on ImageNet.__ 
-
-- The extended version of HSAKD is accepted by IEEE Transactions on Neural Networks and Learning Systems.
-
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/hierarchical-self-supervised-augmented/knowledge-distillation-on-imagenet)](https://paperswithcode.com/sota/knowledge-distillation-on-imagenet?p=hierarchical-self-supervised-augmented)
+- This project provides source code for our Dual-path collaborative distillation (DPCD).
 
 ## Installation
 
 ### Requirements
 
-Ubuntu 18.04 LTS
+
 
 Python 3.8 ([Anaconda](https://www.anaconda.com/) is recommended)
 
-CUDA 11.1
+CUDA 12.1
 
-PyTorch 1.6.0
-
-NCCL for CUDA 11.1
+PyTorch 2.1.1
 
 
-## Perform Offline KD experiments on CIFAR-100 dataset
+
+
+##  Testing student networks 
 #### Dataset
 CIFAR-100 : [download](http://www.cs.toronto.edu/~kriz/cifar-100-python.tar.gz)
 
 unzip to the `./data` folder
 
-#### Training baselines
-```
-python train_baseline_cifar.py --arch wrn_16_2 --data ./data/  --gpu 0
-```
-More commands for training various architectures can be found in [train_baseline_cifar.sh](https://github.com/winycg/HSAKD/blob/main/train_baseline_cifar.sh)
 
-#### Training teacher networks
-(1) Use pre-trained backbone and train all auxiliary classifiers. 
+#### Obtain the student network weights
 
-The pre-trained backbone weights follow .pth files downloaded from repositories of [CRD](https://github.com/HobbitLong/RepDistiller) and [SSKD](https://github.com/xuguodong03/SSKD).
+The pre-trained Student networks can be downloaded from [ Baidu Netdisk ]([https://drive.google.com/drive/folders/1TIzxjUQ1MKUjdZux5EBoaLI3QbuFnDyy?usp=sharing](https://pan.baidu.com/s/1sjD-B5wTmaSFXMfCX5VVXQ?pwd=zth6.)(Access code: zth6).
 
-You should download them from [Google Derive](https://drive.google.com/drive/folders/18hhFrGtJmpJ8J54yCI6KmgmD17xyqkjg?usp=sharing) before training the teacher network that needs a pre-trained backbone
-```
-python train_teacher_cifar.py \
-    --arch wrn_40_2_aux \
-    --milestones 30 60 90 --epochs 100 \
-    --checkpoint-dir ./checkpoint \
-    --data ./data  \
-    --gpu 2 --manual 0 \
-    --pretrained-backbone ./pretrained_backbones/wrn_40_2.pth \
-    --freezed
+
+#### Testing student networks
+The accuracy of the student network is recorded in the saved weight files. Of course, you can also evaluate the student network using the following script commands.
 ```
 
-
-More commands for training various teacher networks with frozen backbones can be found in [train_teacher_freezed.sh](https://github.com/winycg/HSAKD/blob/main/train_teacher_freezed.sh)
-
-The pre-trained teacher networks can be downloaded from [Google Derive](https://drive.google.com/drive/folders/10t6ehp_9qL8iXTLL2k7gAQeyHMCCwnxD?usp=sharing)
-
-
-(2) Train the backbone and all auxiliary classifiers jointly from scratch. In this case, we no longer need a pre-trained teacher backbone.
-
-It can lead to a better accuracy for teacher backbone towards our empirical study.
-```
-python train_teacher_cifar.py \
-    --arch wrn_40_2_aux \
-    --checkpoint-dir ./checkpoint \
-    --data ./data \
-    --gpu 2 --manual 1
-```
-
-The pre-trained teacher networks can be downloaded from [Google Derive](https://drive.google.com/drive/folders/1TIzxjUQ1MKUjdZux5EBoaLI3QbuFnDyy?usp=sharing)
-
-For differentiating (1) and (2), we use `--manual 0` to indicate the case of (1) and `--manual 1` to indicate the case of (2)
-#### Training student networks
-(1) train baselines of student networks
-```
-python train_baseline_cifar.py --arch wrn_16_2 --data ./data/  --gpu 0
-```
-More commands for training various teacher-student pairs can be found in [train_baseline_cifar.sh](https://github.com/winycg/HSAKD/blob/main/train_baseline_cifar.sh)
-
-(2) train student networks with a pre-trained teacher network
-
-Note that the specific teacher network should be pre-trained before training the student networks
+python test_model.py \
+  --arch wrn_16_2_aux \
+  --student-weights ./checkpoint/train_student_cifar_tarch_wrn_40_2_aux_arch_wrn_16_2_aux_dataset_cifar100_seed0/wrn_16_2_aux_best.pth.tar
 
 ```
-python train_student_cifar.py \
-    --tarch wrn_40_2_aux \
-    --arch wrn_16_2_aux \
-    --tcheckpoint ./checkpoint/train_teacher_cifar_arch_wrn_40_2_aux_dataset_cifar100_seed0/wrn_40_2_aux.pth.tar \
-    --checkpoint-dir ./checkpoint \
-    --data ./data \
-    --gpu 0 --manual 0
-```
+More test commands for the student network can be found in [test_model.sh]
 
-More commands for training various teacher-student pairs can be found in [train_student_cifar.sh](https://github.com/winycg/HSAKD/blob/main/train_student_cifar.sh)
 
 ####  Results of the same architecture style between teacher and student networks
 
