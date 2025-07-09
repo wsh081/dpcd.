@@ -1,0 +1,4 @@
+Epoch:0	 lr:0.0500	 duration:9.860
+ train_loss:4.03341	 train_loss_cls:4.03341
+Top-1 accuracy: 0.0754 
+test epoch:0	 test_loss_cls:3.70270	 Top-1 accuracy:0.13
