@@ -56,7 +56,7 @@ More test commands for the student network can be found in [test_model.sh]
 ####  Results of different architecture styles between teacher and student networks
 
 |Teacher <br> Student |ResNet32×4  <br>ShufffeNetV2  |  ResNet50  <br> MobileNetV2 | ResNet32x4 <br> ShuffleNetV1 | WRN-40-2<br> ShuffleNetV1 |
-|:---------------:|:-----------------:|:-----------------:|:-----------------:|:--------------------:|:--------------------:|
+|:---------------:|:-----------------:|:-----------------:|:--------------------:|:--------------------:|
 | Teacher  |    79.42|79.34 |79.42 |75.61   |
 | Student | 71.82|  64.60 |70.50| 70.50 |
 | DPCD | 78.91  | 71.38 | 77.87  |77.80 |
