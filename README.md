@@ -27,7 +27,7 @@ unzip to the `./data` folder
 
 #### Obtain the student network weights
 
-The pre-trained Student networks can be downloaded from [ Baidu Netdisk ]([https://drive.google.com/drive/folders/1TIzxjUQ1MKUjdZux5EBoaLI3QbuFnDyy?usp=sharing](https://pan.baidu.com/s/1sjD-B5wTmaSFXMfCX5VVXQ?pwd=zth6.)(Access code: zth6).
+The pre-trained Student networks can be downloaded from [ Baidu Netdisk ]([https://drive.google.com/drive/folders/1TIzxjUQ1MKUjdZux5EBoaLI3QbuFnDyy?usp=sharing]((https://pan.baidu.com/s/19TFpc0HVcJ1ucofyTOQe-g?pwd=qspu))(Access code: zth6).
 
 
 #### Testing student networks
